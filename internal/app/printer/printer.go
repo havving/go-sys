@@ -11,20 +11,12 @@ type GeneralSysModel struct {
 	service.SysModel
 }
 
-// 초기화
-//func (g *GeneralSysModel) initialize() {
-//	//err := g.GetMem()
-//	err := service.GetMem()
-//	if err != nil {
-//		panic(err)
-//	}
-//}
-
 // Printer 생성자 함수
 func Printer() *GeneralSysModel {
 	g := &GeneralSysModel{}
 	g.GetMem()
 	g.GetCpu()
+	g.GetDisk()
 
 	return g
 }
@@ -37,12 +29,15 @@ func (g GeneralSysModel) Print(mode string) {
 		g.printCpu()
 	case MEM:
 		g.printMem()
+	case DISK:
+		g.printDisk()
 	}
 }
 
 func printAll(g GeneralSysModel) {
 	g.printCpu()
 	g.printMem()
+	g.printDisk()
 }
 
 func (g GeneralSysModel) printCpu() {
@@ -50,7 +45,7 @@ func (g GeneralSysModel) printCpu() {
 		"Idle", "Sys", "User", "Wait", "Total")
 
 	fmt.Fprintf(os.Stdout, "Cpu:    %10d %10d %10d %10d %10d\n",
-		util.Format(g.Cpu.Idle), util.Format(g.Cpu.Sys), util.Format(g.Cpu.User), util.Format(g.Cpu.Wait), util.Format(g.Cpu.Total))
+		g.Cpu.Idle, g.Cpu.Sys, g.Cpu.User, g.Cpu.Wait, g.Cpu.Total)
 }
 
 func (g GeneralSysModel) printMem() {
@@ -58,12 +53,24 @@ func (g GeneralSysModel) printMem() {
 		"total", "used", "free")
 
 	fmt.Fprintf(os.Stdout, "Mem:    %10d %10d %10d\n",
-		util.Format(g.Mem.Total), util.Format(g.Mem.Used), util.Format(g.Mem.Free))
+		g.Mem.Total, g.Mem.Used, g.Mem.Free)
 
 	fmt.Fprintf(os.Stdout, "-/+ buffers/cache: %10d %10d\n",
-		util.Format(g.Mem.ActualUsed), util.Format(g.Mem.ActualFree))
+		g.Mem.ActualUsed, g.Mem.ActualFree)
 
 	fmt.Fprintf(os.Stdout, "Swap:   %10d %10d %10d\n",
-		util.Format(g.Swap.Total), util.Format(g.Swap.Used), util.Format(g.Swap.Free))
+		g.Swap.Total, g.Swap.Used, g.Swap.Free)
+}
 
+func (g GeneralSysModel) printDisk() {
+	fmt.Fprintf(os.Stdout, util.DiskFormatStr,
+		"\nFilesystem", "Size", "Used", "Avail", "Use%", "Mounted on")
+
+	fmt.Fprintf(os.Stdout, util.DiskFormat,
+		g.Disk.DevName,
+		g.Disk.Total,
+		g.Disk.Used,
+		g.Disk.Avail,
+		g.Disk.UsePercent,
+		g.Disk.DirName)
 }

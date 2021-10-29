@@ -2,6 +2,7 @@ package app
 
 import (
 	"go-sys/internal/app/printer"
+	"go-sys/internal/pkg/database"
 	"log"
 )
 
@@ -17,6 +18,7 @@ func Start() {
 	printer.Setup()
 
 	// database setup
+	database.Setup()
 
 	// json(echo) setup
 
