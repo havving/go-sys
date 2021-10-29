@@ -23,11 +23,10 @@ func Setup() {
 func argsCheckup(all, cpu, mem *bool) {
 	switch {
 	case *all == true:
-		Printer(CPU)
-		Printer(MEM)
+		Printer().Print(ALL)
 	case *cpu == true:
-		Printer(CPU)
+		Printer().Print(CPU)
 	case *mem == true:
-		Printer(MEM)
+		Printer().Print(MEM)
 	}
 }

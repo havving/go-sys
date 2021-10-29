@@ -1,9 +1,9 @@
-package models
+package service
 
 type SysModel struct {
 	Host HostModel
-	Cpu CpuSysModel
-	Mem MemSysModel
+	Cpu  CpuSysModel
+	Mem  MemSysModel
 	Swap SwapSysModel
 }
 
@@ -29,7 +29,7 @@ type MemSysModel struct {
 }
 
 type SwapSysModel struct {
-	Used uint64
-	Free uint64
+	Used  uint64
+	Free  uint64
 	Total uint64
 }
