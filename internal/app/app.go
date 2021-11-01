@@ -1,18 +1,15 @@
 package app
 
 import (
+	"go-sys/internal/app/batch"
 	"go-sys/internal/app/printer"
 	"go-sys/internal/pkg/database"
 	"log"
 )
 
-var Log *log.Logger
-
 func Start() {
 	log.Println("System Collector Start")
 	defer log.Println("System Collector Stopped")
-
-	// log setup
 
 	// args setup
 	printer.Setup()
@@ -21,9 +18,10 @@ func Start() {
 	database.Setup()
 
 	// json(echo) setup
+	//e := echo.New()
+	//e.Start(":8080")
 
-	// create pid file
-
-	// batch init
+	// batch init (system collector)
+	batch.Start()
 
 }

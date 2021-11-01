@@ -3,7 +3,6 @@ package printer
 import (
 	"fmt"
 	"go-sys/internal/pkg/service"
-	"go-sys/internal/pkg/util"
 	"os"
 )
 
@@ -16,7 +15,6 @@ func Printer() *GeneralSysModel {
 	g := &GeneralSysModel{}
 	g.GetMem()
 	g.GetCpu()
-	g.GetDisk()
 
 	return g
 }
@@ -24,20 +22,18 @@ func Printer() *GeneralSysModel {
 func (g GeneralSysModel) Print(mode string) {
 	switch mode {
 	case ALL:
-		printAll(g)
+		g.printAll()
 	case CPU:
 		g.printCpu()
 	case MEM:
 		g.printMem()
-	case DISK:
-		g.printDisk()
 	}
+	os.Exit(1)
 }
 
-func printAll(g GeneralSysModel) {
+func (g GeneralSysModel) printAll() {
 	g.printCpu()
 	g.printMem()
-	g.printDisk()
 }
 
 func (g GeneralSysModel) printCpu() {
@@ -60,17 +56,4 @@ func (g GeneralSysModel) printMem() {
 
 	fmt.Fprintf(os.Stdout, "Swap:   %10d %10d %10d\n",
 		g.Swap.Total, g.Swap.Used, g.Swap.Free)
-}
-
-func (g GeneralSysModel) printDisk() {
-	fmt.Fprintf(os.Stdout, util.DiskFormatStr,
-		"\nFilesystem", "Size", "Used", "Avail", "Use%", "Mounted on")
-
-	fmt.Fprintf(os.Stdout, util.DiskFormat,
-		g.Disk.DevName,
-		g.Disk.Total,
-		g.Disk.Used,
-		g.Disk.Avail,
-		g.Disk.UsePercent,
-		g.Disk.DirName)
 }

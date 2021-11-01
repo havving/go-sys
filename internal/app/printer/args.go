@@ -5,24 +5,22 @@ import (
 )
 
 const (
-	ALL  = "ALL"
-	CPU  = "CPU"
-	MEM  = "MEM"
-	DISK = "DISK"
+	ALL = "ALL"
+	CPU = "CPU"
+	MEM = "MEM"
 )
 
 func Setup() {
-	all := flag.Bool("a", false, " : All Information")
-	cpu := flag.Bool("c", false, " : CPU Information")
-	mem := flag.Bool("m", false, " : Memory Information")
-	disk := flag.Bool("d", false, " : Disk Information")
+	all := flag.Bool("a", false, " : All Information(default: false)")
+	cpu := flag.Bool("c", false, " : CPU Information(default: false)")
+	mem := flag.Bool("m", false, " : Memory Information(default: false)")
 
 	flag.Parse()
 
-	argsCheckup(all, cpu, mem, disk)
+	argsCheckup(all, cpu, mem)
 }
 
-func argsCheckup(all, cpu, mem, disk *bool) {
+func argsCheckup(all, cpu, mem *bool) {
 	switch {
 	case *all == true:
 		Printer().Print(ALL)
@@ -30,7 +28,7 @@ func argsCheckup(all, cpu, mem, disk *bool) {
 		Printer().Print(CPU)
 	case *mem == true:
 		Printer().Print(MEM)
-	case *disk == true:
-		Printer().Print(DISK)
+	default:
+		break
 	}
 }
